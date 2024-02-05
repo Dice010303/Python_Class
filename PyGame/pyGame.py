@@ -16,19 +16,36 @@ pygame.display.set_caption(title)
 clock = pygame.time.Clock()
 # time.Clock - 시간 변수 설정
 
-player = pygame.image.load("C:/Users/최영준/Desktop/Python/Python_Class/PyGame/pyGame_images/player.png").convert_alpha()
-# 이미지 로딩 주의점 : png 파일은 가져올 경우 convert_alpha()를 써줘야 한다.
-# image.load(경로) - 이미지 로딩 메소드
-# \ 는 읽을 수 없다 -> / 로 변환
+class Object:
+    def __init__(self): #생성자
+        self.x = 0
+        self.y = 0
+    def add_img(self,address): # 이미지 로딩
+        if address[-3:]=='png':
+            self.img = pygame.image.load(address).convert_alpha()
+            # 이미지 로딩 주의점 : png 파일은 가져올 경우 convert_alpha()를 써줘야 한다.
+        else:
+            self.img = pygame.image.load(address)
+            # image.load(경로) - 이미지 로딩 메소드
+            # \ 는 읽을 수 없다 -> / 로 변환
+    def resize(self,width,height): # 이미지 사이즈 변환
+        self.img = pygame.transform.scale(self.img,(width,height))
+        # transform.scale(이미지, 크기(너비,높이) )이미지 크기 변환
 
-player = pygame.transform.scale(player,(100,100))
-# transform.scale(이미지, 크기(너비,높이) )이미지 크기 변환
+        self.width,self.height = self.img.get_size()
+        # get_size() - 이미지 파일의 크기 반환 ( 가로 , 세로 )
+    def show(self): # 이미지 출력
+        screen.blit(self.img,(self.x,self.y))
+        # blit(이미지,좌표) - 좌표에 이미지를 불러옴
+        # 좌표 - 이미지 파일의 왼쪽 상단
 
-player_width,player_height = player.get_size()
-# get_size() - 이미지 파일의 크기 반환 ( 가로 , 세로 )
 
-player_x = round(size[0]/2) - round(player_width / 2) # size[0] - size 의 x좌표
-player_y = size[1]-player_height-50 # size[1] - size 의 y좌표 ( 캐릭터 높이 만큼 차이주기 + a)
+player = Object() # Object 객체
+player.add_img("C:/Users/최영준/Desktop/Python/Python_Class/PyGame/pyGame_images/player.png")
+player.resize(80,80)
+player.x = round(size[0]/2) - round(player.width / 2) # size[0] - size 의 x좌표
+player.y = size[1]-player.height-50 # size[1] - size 의 y좌표 ( 캐릭터 높이 만큼 차이주기 + a)
+
 black = (0,0,0)
 white = (255,255,255)
 
@@ -62,9 +79,7 @@ while system_exit == 0:
     screen.fill(black)
     # fill(color) - 화면을 color 로 채움
 
-    screen.blit(player,(player_x,player_y))
-    # blit(이미지,좌표) - 좌표에 이미지를 불러옴
-    # 좌표 - 이미지 파일의 왼쪽 상단
+    player.show()
 
     #  - 4-5. 업데이트
     pygame.display.flip()
