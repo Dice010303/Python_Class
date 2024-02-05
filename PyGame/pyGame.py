@@ -28,7 +28,7 @@ class Object:
             self.img = pygame.image.load(address)
             # image.load(경로) - 이미지 로딩 메소드
             # \ 는 읽을 수 없다 -> / 로 변환
-    def resize(self,width,height): # 이미지 사이즈 변환
+    def change_size(self,width,height): # 이미지 사이즈 변환
         self.img = pygame.transform.scale(self.img,(width,height))
         # transform.scale(이미지, 크기(너비,높이) )이미지 크기 변환
 
@@ -40,16 +40,16 @@ class Object:
         # 좌표 - 이미지 파일의 왼쪽 상단
 
 
-player = Object() # Object 객체
+player = Object() # Object 객체 : player
 player.add_img("C:/Users/최영준/Desktop/Python/Python_Class/PyGame/pyGame_images/player.png")
-player.resize(80,80)
+player.change_size(80,80)
 player.x = round(size[0]/2) - round(player.width / 2) # size[0] - size 의 x좌표
 player.y = size[1]-player.height-50 # size[1] - size 의 y좌표 ( 캐릭터 높이 만큼 차이주기 + a)
 
+enemy = Object()
+
 black = (0,0,0)
 white = (255,255,255)
-
-k = 0
 
 # 4. 메인 이벤트 ( 코드 상에서 봤을 때의 이벤트)
 system_exit = 0  # 종료 시점 변수
@@ -66,14 +66,8 @@ while system_exit == 0:
         if event.type == pygame.QUIT: # [x]버튼을 누른 이벤트
             system_exit = 1  # 반복문 탈출 (break)
 
-    #  - 4-3. 입력, 시간에 따른 변화
 
-    # k += 1 # 화면에 색을 번갈아 나오게 하기 위한 변수
-    #
-    # if k%2 == 0 :
-    #     color = black
-    # else :
-    #     color = white
+    #  - 4-3. 입력, 시간에 따른 변화
 
     #  - 4-4. 전사작업(그리기)
     screen.fill(black)
