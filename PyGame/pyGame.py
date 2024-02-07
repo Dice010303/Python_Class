@@ -1,6 +1,8 @@
 import pygame
 import random
 # 난수 발생
+import time
+# 시간관련 모듈
 
 # 1. 초기화
 pygame.init()
@@ -20,6 +22,16 @@ clock = pygame.time.Clock()
 
 black = (0,0,0)
 white = (255,255,255)
+
+# 충돌 판정 함수 -- crash__.png 확인
+def crash(a,b):
+    if (a.x - b.width <= b.x) and (b.x <= a.x + a.width):
+        if (a.y - b.height <= b.y) and (b.y <= a.y + a.height):
+            return True
+        else:
+            return False
+    else:
+        return False
 
 class Object:
     def __init__(self): #생성자
@@ -166,6 +178,41 @@ while system_exit == 0:
         # d 객체를 인덱스 자리에 써서 오류 발생! (Runtime Error) - 예외(exception)
     except:
         pass
+
+    # enemy와 missile의 충돌
+    delete_missile_list = []
+    delete_enemy_list = []
+    for i in range(len(missile_list)):
+        for j in range(len(enemy_list)):
+            m = missile_list[i]
+            e = enemy_list[j]
+
+            if crash(m,e) == True:
+                delete_missile_list.append(i)
+                delete_enemy_list.append(j)
+
+    delete_missile_list = list(set(delete_missile_list))
+    delete_enemy_list = list(set(delete_enemy_list))
+    # set 자료형 {} - 집합 자료형 , 중복된 자료를 제거해 준다.
+
+    try:
+        delete_missile_list.reverse()
+        delete_enemy_list.reverse()
+        for dm in delete_missile_list:
+            del missile_list[dm]
+
+        for de in delete_enemy_list:
+            del enemy_list[de]
+    except:
+        pass
+
+    # player와 enemy의 충돌
+    for i in range(len(enemy_list)):
+        e = enemy_list[i]
+        if crash(e,player) == True:
+            system_exit = 1   #  종료 변수
+            time.sleep(1) # 단위 : sec
+
 
 #  - 4-4. 전사작업(그리기)
     screen.fill(black)
