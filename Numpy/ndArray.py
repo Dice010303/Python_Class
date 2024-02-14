@@ -57,4 +57,3 @@ print(arr2.dtype)
 print(arr3.dtype)
 
 # 실수 요소로만 구성된 ndArray
-`
