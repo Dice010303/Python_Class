@@ -135,11 +135,51 @@ li = [[1880, 90993, 110491],
       [2011, 1753500, 1893230]]
 
 # 1. 남아, 여아 출생 평균을 구하시오
-np.mean(list)
+birth = np.array(li)
+rs = birth.mean(axis=0) # 세로 방향
+print("남아 출생 평균 : {}".format(int(rs[1]))) # 남아,여아 정보만
+print("여아 출생 평균 : {}".format(int(rs[2])))
 
+print()
 # 2. 남아 출생이 가장 많은 연도와 남아의 수를 구하시오
+m_birth = birth[:,1]
+max_m = m_birth.max()
+idx = m_birth == max_m # 출생이 가장 많은 연도 탐색
+# print(idx)
+rs = birth[idx]
+print("남아 출생이 가장 많은 연도: {}년".format(rs[:,0])) # 2차원이라 형변환 어려움 !
+print("남아 출생이 가장 많은 연도의 남아의 수 : {}명".format(rs[:,1]))
 
-
+print()
 # 3. 2000년 이후 데이터
+print(birth[birth[:,0] >= 2000])
 
+print()
 # 4. 1800년대, 1900년대, 2000년대 각 남아 여아 수의 평균을 구하시오.
+cen1800_a = birth[birth[:,0] >= 1800]
+cen1800 = cen1800_a[cen1800_a[:,0] < 1900]
+# print(cen1800)
+avg1800 = cen1800.mean(axis=0)[1:3]
+print("1800년대 남아 평균 출생 수 : {}명".format(int(avg1800[0])))
+print("1800년대 여아 평균 출생 수 : {}명".format(int(avg1800[1])))
+
+print()
+cen1900_a = birth[birth[:,0] >= 1900]
+cen1900 = cen1900_a[cen1900_a[:,0] < 2000]
+# print(cen1900)
+avg1900 = cen1900.mean(axis=0)[1:3] # axis = 0 : 열 / axis = 1 : 행
+print("1900년대 남아 평균 출생 수 : {}명".format(int(avg1900[0])))
+print("1900년대 여아 평균 출생 수 : {}명".format(int(avg1900[1])))
+
+print()
+cen2000 = birth[birth[:,0] >= 2000]
+# print(cen2000)
+avg2000 = cen2000.mean(axis=0)[1:3]
+print("2000년대 남아 평균 출생 수 : {}명".format(int(avg2000[0])))
+print("2000년대 여아 평균 출생 수 : {}명".format(int(avg2000[1])))
+
+
+
+
+
+
